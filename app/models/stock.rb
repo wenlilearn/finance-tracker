@@ -14,4 +14,8 @@ class Stock < ApplicationRecord
   rescue IEX::Errors::SymbolNotFoundError
     nil
   end
+
+  def self.find_stock_by_ticker(ticker_symbol)
+    where(ticker: ticker_symbol).first
+  end
 end
