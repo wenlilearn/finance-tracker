@@ -30,4 +30,24 @@ class User < ApplicationRecord
       "Anonymous"
     end
   end
+
+  def self.lookup(field, value)
+    where("#{field} like ?", "%#{value}%")
+  end
+
+  def self.search(param)
+    param.strip!
+
+    results =
+      (lookup("first_name", param) +
+      lookup("last_name", param) +
+      lookup("email", param)).uniq
+    
+    return nil if results.blank?
+    results
+  end
+
+  def can_add_friend?(friend_id)
+    !self.friends.where(id: friend_id).exists?
+  end
 end

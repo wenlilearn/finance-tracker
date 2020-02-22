@@ -1,0 +1,19 @@
+<div class="results-block">
+  <%= render "layouts/messages" %>
+</div>
+<% if @friends %>
+    <% @friends.each do |friend| %>
+      <div class="card card-header results-block">
+        <strong>Name: </strong><%= friend.full_name %>
+        <strong>Email: </strong><%= friend.email %>
+        <strong>Actions: </strong><%= link_to "View Profile", "#", class: "btn btn-sm btn-outline-success" %>
+        <% if current_user.can_add_friend?(friend.id) %>
+          <%= link_to "Add to friends", create_friend_path(id: friend.id), class: "btn btn-sm btn-success", method: :post %>
+        <% else %>
+          <span class="badge badge-secondary">
+            You are already following this person.
+          </span>
+        <% end %>
+      </div>
+    <% end %>
+<% end %>
